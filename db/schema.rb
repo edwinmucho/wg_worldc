@@ -73,11 +73,15 @@ ActiveRecord::Schema.define(version: 20180612182926) do
   create_table "users", force: :cascade do |t|
     t.string   "user_key",   limit: 255
     t.integer  "chat_room",  limit: 4
+    t.integer  "country_id", limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
+  add_index "users", ["country_id"], name: "fk_rails_7325e2cdfa", using: :btree
+
   add_foreign_key "managers", "countries"
   add_foreign_key "players", "countries"
   add_foreign_key "tactics", "countries"
+  add_foreign_key "users", "countries"
 end

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+<meta charset="utf-8">
+<meta name="svcdomain" content="sports.media.daum.net">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+
+<meta property="og:author" content="다음스포츠">
+<meta property="og:title" content="다음스포츠 월드컵 | 프랑스 vs 호주">
+<meta property="og:description" content="축구 보는 재미가 있다. 다음스포츠 축구 게임센터!">
+<meta property="og:site_name" content="다음스포츠">
+<meta property="og:image" content="http://t1.daumcdn.net/media/img-section/sports/meta/sports_meta_wc_2018.png">
+<meta property="og:url" content="http://sports.media.daum.net/sports/gamecenter/80016591/cheer">
+
+<title>월드컵 | 프랑스 vs 호주 | 다음스포츠 </title>
+
+<link rel="shortcut icon" href="http://t1.daumcdn.net/media/img-media/2010ci/Daum_favicon.ico">
+
+
+
+
+            			<link rel="stylesheet" type="text/css" href="http://t1.daumcdn.net/media/static/media-710/dist/sports/css/gamecenter_soccer.min.css">
+            
+
+
+
+<script>
+    var ENV = {
+        "TEMPLATE_PREFIX"	: "sports",
+        "TEMPLATE_PATH"		: "/proxy/tenth2/media-710/sports/jst/",
+        "VERSION"			: "media-710",
+        "LOCALENVIRONMENT"  : false,
+        "DEVENVIRONMENT"  : false
+    };
+
+    //document.domain설정
+    try {
+        window.document.domain = "daum.net";
+    } catch(e){
+        throw new Error("document.domain Error", e);
+    }
+
+    if("" == "home") {
+        window.sportsSelectedCategory = "home";
+    } else if("" == "column") {
+        window.sportsSelectedCategory = "";
+    } else {
+        window.sportsSelectedCategory = "gamecenter";
+    }
+</script>
+<!--[if lte IE 7]>
+    <script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/json2.min.js"></script>
+<![endif]-->
+<script src="http://s1.daumcdn.net/svc/original/U03/cssjs/jquery/jquery-1.9.1.min.js"></script>
+<script>
+    // jQuery noconflict
+    jQuery.noConflict();
+</script>
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/merge.sports.min.js"></script>
+<script src="http://s1.daumcdn.net/svc/original/U03/commonjs/uoclike/sports/uoclike.min.js"></script>
+<!--[if lte IE 7]>
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/backbonejs/backbone.ie7historyfix.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="http://s1.daumcdn.net/svc/original/U03/cssjs/es-shims/es5-shim-4.0.3.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/slide/slide-2.0.5.standalone.bugfix.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+(function() {
+	var categoryMaps = {
+		"ronaldoSection" : {
+			"baseball": "2102",
+			"worldbaseball": "2103",
+			"soccer": "2080",
+			"worldsoccer": "2079",
+			"golf": "2007",
+			"basketvolley": "2094",
+			"general": "2082",
+			"esports": "2133",
+			"all": "2002"
+		},
+		"ronaldoFilter" : {
+			"baseball": "event_type:15,14,13,12",
+			"worldbaseball": "event_type:15,14,13,12",
+			"soccer": "event_type:1,2,3",
+			"worldsoccer": "event_type:1,2,3",
+			"golf": "event_type:21,22,13",
+			"basketvolley": "event_type:11,13,33",
+			"general": "event_type:11,13,33",
+			"esports": "event_type:11,12,13,33",
+			"all": "event_type:1,2,3,12,13,14,15,21,22,33"
+		},
+        "korName" : {
+            "baseball": "야구",
+            "worldbaseball": "해외야구",
+            "soccer": "축구",
+            "worldsoccer": "해외축구",
+            "golf": "골프",
+            "basketvolley": "농구/배구",
+            "general": "일반",
+            "esports": "e스포츠"
+        },
+		"newsSectionId" : {
+			"baseball": "1028",
+			"worldbaseball": "1015",
+			"soccer": "1027",
+			"worldsoccer": "100032",
+			"golf": "5000",
+			"basketvolley": "1029,100033",
+			"general": "1031",
+			"esports": "1079"
+		}
+	}
+	
+	namespace("SPORTS_CATEGORY", categoryMaps);
+	
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										
+	        <style>
+        .gc_vod .cont_gc {height:393px}
+        .gc_vod .player_vod iframe {display:block;width:100%;height:100%}
+        .gc_vod .live_player_remark { display: none; }
+        .gc_vod .live_bottom_fixed .live_player_remark { display: block; z-index: 9999; height:24px; position: fixed; bottom: 202px; right: 50%; margin-right:-624px }
+    </style>
+</head>
+<body>
+<script>
+    ;(function($){
+        var soccerLeagueMap = {
+            "soccer": {
+                "KL" : "K리그1",
+                "KL2" : "K리그2",
+                "KL_RELEGATION" : "K리그 승강전",
+                "KFA" : "국가대표",
+                "AFCCL" : "AFC 챔피언스리그"
+            },
+            "worldsoccer":{
+                "EPL" : "프리미어리그",
+                "EPL_CUP" : "EFL컵",
+                "BUNDESLIGA" : "분데스리가",
+                "PRIMERA" : "라리가",
+                "SERIEA" : "세리에 A",
+                "LIGUE1" : "리그 1",
+                "EREDIVISIE" : "에레디비시",
+                "UEFACL" : "챔피언스리그",
+                "UEFACUP" : "유로파리그",
+                "FACUP" : "The FA컵",
+                "WORLDCUP" : "월드컵"
+            }
+        };
+		var soccerLeagueAliasMap = {
+			"soccer": {
+				"KL" : "KL",
+				"KL2" : "KL2",
+				"KL_RELEGATION" : "KL_RELEGATION",
+				"KFA" : "KFA",
+				"AFCCL" : "AFCCL"
+			},
+			"worldsoccer":{
+				"EPL" : "EPL",
+				"EPL_CUP" : "EPL_CUP",
+				"BUNDESLIGA" : "BUNDESLIGA",
+				"PRIMERA" : "PRIMERA",
+				"SERIEA" : "SERIEA",
+				"LIGUE1" : "LIGUE1",
+				"EREDIVISIE" : "EREDIVISIE",
+				"UEFACL" : "UEFACL",
+				"UEFACUP" : "UEFACUP",
+                "FACUP" : "FACUP",
+                "WORLDCUP" : "WORLDCUP"
+			}
+		};
+
+        namespace("SPORTS_GAMECENTER.SOCCER.LEAGUE_NAME_MAP", soccerLeagueMap);
+		namespace("SPORTS_GAMECENTER.SOCCER.LEAGUE_ALIAS_MAP", soccerLeagueAliasMap);
+
+        var PROVIDE_PLAYER_STAT_LEAGUE = ["EPL", "KL", "KL2", "KL_RELEGATION"];
+        namespace("SPORTS_GAMECENTER.SOCCER.PROVIDE_PLAYER_STAT_LEAGUE", PROVIDE_PLAYER_STAT_LEAGUE);
+
+        var PROVIDE_PLAYER_IMAGE_LEAGUE = ["EPL", "KL", "KL2", "KL_RELEGATION","BUNDESLIGA","PRIMERA","LIGUE1","SERIEA","UEFACL","WORLDCUP"];
+        namespace("SPORTS_GAMECENTER.SOCCER.PROVIDE_PLAYER_IMAGE_LEAGUE", PROVIDE_PLAYER_IMAGE_LEAGUE);
+
+        var PROVIDE_NEWS_LIST_LEAGUE = ["EPL", "BUNDESLIGA", "PRIMERA", "UEFACL", "UEFACUP", "KL", "KL2", "KL_RELEGATION", "AFCCL", "KFA", "WORLDCUP"];
+        namespace("SPORTS_GAMECENTER.SOCCER.PROVIDE_NEWS_LIST_LEAGUE", PROVIDE_NEWS_LIST_LEAGUE);
+
+        var PROVIDE_LIVE_CAST_LIST_LEAGUE = ["EPL", "UEFACL", "UEFACUP", "KL", "KL2", "KL_RELEGATION", "AFCCL", "KFA"];
+        namespace("SPORTS_GAMECENTER.SOCCER.PROVIDE_LIVE_CAST_LIST_LEAGUE", PROVIDE_LIVE_CAST_LIST_LEAGUE);
+
+        var PROVIDE_HIGHLIGHT_LIST_LEAGUE = ["EPL", "PRIMERA", "UEFACL", "UEFACUP", "KL", "KL2", "KL_RELEGATION", "AFCCL", "KFA"];
+        namespace("SPORTS_GAMECENTER.SOCCER.PROVIDE_HIGHLIGHT_LIST_LEAGUE", PROVIDE_HIGHLIGHT_LIST_LEAGUE);
+
+    })();
+</script><div id="kakaoIndex">
+    <a href="#kakaoBody">본문 바로가기</a>
+</div>
+<div id="kakaoWrap" class="wc_2018">
+    <div id="kakaoHead" role="banner">
+        <div class="head_gc">
+    <h1>
+        <a href="http://www.daum.net/" class="link_daum">
+            <img src="http://i1.daumcdn.net/img-section/sports13/gamecenter/logo_daum.jpg" width="44" height="18" class="thumb_g" alt="Daum">
+        </a>
+        <a href="/sports/wc/russia" id="daumServiceLogo" class="link_service link_worldcup">
+            <span class="screen_out">월드컵</span>
+            <img src="http://t1.daumcdn.net/media/sports/wc2018/wc_logo_180615.png" class="thumb_g" alt="RUSSIA 2018">        </a>
+    </h1>
+    <div class="util_gc" id="gamecenterSocialShare"></div>
+    <div class="score_board" id="headerGameInfo">
+        <div class="inner_g">
+            <span class="team_vs team_vs1">
+                <span class="inner_team">
+                    <img src="http://t1.daumcdn.net/thumb/R18x18ht.u/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F19%2F4481_300300.png%3F_t%3D20180528" width="18" height="18" class="thumb_g img_logo" alt="프랑스 로고">
+                    <span class="txt_team">프랑스</span>
+                </span>
+                <span class="num_score" id="headerHomeScore">-</span>
+            </span>
+            <span class="screen_out">vs</span>
+            <span class="team_vs team_vs2">
+                <span class="inner_team"><img src="http://t1.daumcdn.net/thumb/R18x18ht.u/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F19%2F4741_300300.png%3F_t%3D20180528" width="18" height="18" class="thumb_g img_logo" alt="호주 로고">
+                    <span class="txt_team">호주</span>
+                </span>
+                <span class="num_score" id="headerAwayScore">-</span>
+            </span>
+            <span class="txt_status">-</span>
+        </div>
+    </div>
+</div>
+    </div>
+    <hr class="hide">
+    <div id="kakaoContent" class="cont_pre" role="main">
+        <div id="cSub">
+            <div class="intro_game" id="gameScoreboardWrap"></div>                        <div class="ad_top" id="kakaoAdTop"></div>
+            <div class="wrap_ad">
+                <div id="kakaoAdLeft" class="ad_side ad_left"></div>
+                <div id="kakaoAdRight" class="ad_side ad_right"></div>
+            </div>
+                    </div>
+        <div id="cMain">
+            <div id="mAside">
+                <div class="gc_aside">
+    <div class="game_list"></div>
+</div>
+            </div>
+            <div id="mFeature">
+                <div class="gc_feature ">
+    <h3 class="screen_out">메뉴</h3>
+    <ul class="menu_feature"></ul>
+    <!-- 최근경기영상 탭 -->
+    <div class="box_feature"></div>
+</div>            </div>
+            <div id="mArticle">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+(function() {
+	var categoryMaps = {
+		"ronaldoSection" : {
+			"baseball": "2102",
+			"worldbaseball": "2103",
+			"soccer": "2080",
+			"worldsoccer": "2079",
+			"golf": "2007",
+			"basketvolley": "2094",
+			"general": "2082",
+			"esports": "2133",
+			"all": "2002"
+		},
+		"ronaldoFilter" : {
+			"baseball": "event_type:15,14,13,12",
+			"worldbaseball": "event_type:15,14,13,12",
+			"soccer": "event_type:1,2,3",
+			"worldsoccer": "event_type:1,2,3",
+			"golf": "event_type:21,22,13",
+			"basketvolley": "event_type:11,13,33",
+			"general": "event_type:11,13,33",
+			"esports": "event_type:11,12,13,33",
+			"all": "event_type:1,2,3,12,13,14,15,21,22,33"
+		},
+        "korName" : {
+            "baseball": "야구",
+            "worldbaseball": "해외야구",
+            "soccer": "축구",
+            "worldsoccer": "해외축구",
+            "golf": "골프",
+            "basketvolley": "농구/배구",
+            "general": "일반",
+            "esports": "e스포츠"
+        },
+		"newsSectionId" : {
+			"baseball": "1028",
+			"worldbaseball": "1015",
+			"soccer": "1027",
+			"worldsoccer": "100032",
+			"golf": "5000",
+			"basketvolley": "1029,100033",
+			"general": "1031",
+			"esports": "1079"
+		}
+	}
+	
+	namespace("SPORTS_CATEGORY", categoryMaps);
+	
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	                	
+
+
+
+
+
+
+<h2 class="screen_out">경기 타이틀</h2>
+<div id="feature_wholepage_pane"></div>
+<div id="gcView_default"></div>
+<div id="gcView_layer"></div>
+<a href="#" id="goTopBtn" onclick="window.scrollTo(0,0);return false;" class="img_soccergc btn_top" style="bottom:14px">맨위로</a>
+
+<script src="http://s1.daumcdn.net/svc/original/U03/cssjs/media/messi/0.2.8/messi.min.js" charset="utf-8"></script>
+
+
+<script src="http://s1.daumcdn.net/svc/original/U03/cssjs/media/scp/20140520113459/highcharts.js"></script>
+
+<script type="text/javascript" src="http://s1.daumcdn.net/svc/original/U03/cssjs/pcsocialshare/pcSocialshare-1.5.3.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/clounge.min.js"></script>
+
+<script async src="http://comment.daum.net/js/latest/alex.client.min.js"></script>
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/alex-single-adapter.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/sports.simplerhea.messi.min.js"></script>
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/sports.simplerhea.game.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/sports.plounge.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/verge.1.9.1.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/alex-util.min.js"></script>
+
+<!--[if IE]>
+    <script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/backbonejs/backbone.crossdomain.0.1.0.modified.min.js"></script>
+<![endif]-->
+
+<script>
+    (function() {
+        namespace("SPORTS_GAMECENTER.CONFIG", {
+            platform: "pc"
+        });
+    })();
+</script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/gamecenter/merge.sports.gamecenter.soccer.min.js"></script>
+
+<script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/lib/moment.2.9.0.min.js"></script>
+
+
+<script>
+window.jQuery(function(){
+    var gameInfo = new Object({"startDate":"20180616","home":{"participantType":"TEAM","participant":600876,"homeAway":"HOME","resultType":"SCORE","result":null,"finalResult":null,"wlt":null,"team":{"teamId":600876,"cpTeamId":"4481","nameMain":"프랑스","nameKo":"프랑스","shortNameKo":"프랑스","shortName":"프랑스","imageUrl":"http://t1.daumcdn.net/media/img-section/sports13/logo/team/19/4481_300300.png?_t=20180528","name":"프랑스"},"formation":null},"gameType":{"gameTypeId":5,"nameKo":"조별예선","name":"조별예선"},"liveData":null,"matchSeq":null,"substitution":null,"endDate":null,"endTime":null,"gameName":null,"startTime":"1900","awayStartPitcher":null,"gameUrl":"http://sports.media.daum.net/sports/gamecenter/80016591","homeTeamStat":null,"homePerson":null,"event":{"eventId":1,"eventCode":"SOCCER","nameKo":"축구","name":"축구"},"gameDetailStatus":null,"losePitcher":null,"awayScore":null,"booking":null,"op":{"importance":1,"textRelay":true},"homeScore":null,"gameId":80016591,"awayPerson":null,"doubleHeader":null,"gameStatus":"BEFORE","league":{"leagueId":20,"leagueCode":"WORLDCUP","nameMain":"월드컵","name":"월드컵"},"goal":null,"cpGameId":"13245962","field":{"fieldId":342305,"cpFieldId":"12217","nameMain":"Kazan Arena","nameKo":"Kazan Arena","shortNameKo":"Kazan Arena","shortName":"Kazan Arena","name":"Kazan Arena"},"away":{"participantType":"TEAM","participant":600892,"homeAway":"AWAY","resultType":"SCORE","result":null,"finalResult":null,"wlt":null,"team":{"teamId":600892,"cpTeamId":"4741","nameMain":"호주","nameKo":"호주","shortNameKo":"호주","shortName":"호주","imageUrl":"http://t1.daumcdn.net/media/img-section/sports13/logo/team/19/4741_300300.png?_t=20180528","name":"호주"},"formation":null},"winPitcher":null,"awayTeamStat":null,"awayPersonStat":null,"season":{"seasonId":333,"seasonKey":"2018","nameMain":"2018 월드컵","isTeamRankDisplay":true,"isPersonRankDisplay":true,"currentGameTypeId":5,"currentGameDetailTypeId":9,"name":"2018 월드컵"},"savePitcher":null,"periodType":"BEFORE","homeStartPitcher":null,"gameDetailType":{"gameDetailTypeId":10,"nameKo":"C조","name":"C조"},"homePersonStat":null,"roundSeq":1,"finalResultType":"NORMAL","mobileGameUrl":"http://m.sports.media.daum.net/m/sports/gamecenter/80016591"}),
+        leagueInfo = _.compact(new Object([{"leagueCode":"KL","seasonKey":"2018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"스플릿 일반","gameDetailTypeId":4,"currentRoundSeq":14,"lastGameDate":"201805201600"},{"leagueCode":"KL2","seasonKey":"2018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":16,"lastGameDate":"201806101900"},{"leagueCode":"AFCCL","seasonKey":"2018","leagueGameType":"본선","leagueGameTypeId":6,"gameDetailType":"16강","gameDetailTypeId":27,"currentRoundSeq":2,"lastGameDate":"201805162100"},{"leagueCode":"EPL","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":38,"lastGameDate":"201805132300"},{"leagueCode":"BUNDESLIGA","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":34,"lastGameDate":"201805122230"},{"leagueCode":"PRIMERA","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":38,"lastGameDate":"201805210345"},{"leagueCode":"UEFACL","seasonKey":"20172018","leagueGameType":"본선","leagueGameTypeId":6,"gameDetailType":"결승","gameDetailTypeId":31,"currentRoundSeq":1,"lastGameDate":"201805270345"},{"leagueCode":"EREDIVISIE","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":34,"lastGameDate":"201805062130"},{"leagueCode":"UEFACUP","seasonKey":"20172018","leagueGameType":"본선","leagueGameTypeId":6,"gameDetailType":"결승","gameDetailTypeId":31,"currentRoundSeq":1,"lastGameDate":"201805170345"},{"leagueCode":"SERIEA","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":38,"lastGameDate":"201805210345"},{"leagueCode":"LIGUE1","seasonKey":"20172018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailType":"정규시즌","gameDetailTypeId":3,"currentRoundSeq":38,"lastGameDate":"201805200400"},{"leagueCode":"EPL_CUP","seasonKey":"20172018","leagueGameType":"본선","leagueGameTypeId":6,"gameDetailType":"결승","gameDetailTypeId":31,"currentRoundSeq":7,"lastGameDate":"201802260130"},{"leagueCode":"KL_RELEGATION","seasonKey":"2017","leagueGameType":"포스트시즌","leagueGameTypeId":3,"gameDetailType":"플레이오프","gameDetailTypeId":7,"currentRoundSeq":2,"lastGameDate":"201711261500"},{"leagueCode":"KFA","seasonKey":"2018","leagueGameType":"시즌","leagueGameTypeId":2,"gameDetailTypeId":0,"currentRoundSeq":0,"lastGameDate":"201806112200"},null,null,null,{"leagueCode":"WORLDCUP","seasonKey":"2018","leagueGameType":"조별예선","leagueGameTypeId":5,"gameDetailType":"B조","gameDetailTypeId":9,"currentRoundSeq":1,"lastGameDate":"201806160300"},{"leagueCode":"FACUP","seasonKey":"20172018","leagueGameType":"본선","leagueGameTypeId":6,"gameDetailType":"결승","gameDetailTypeId":31,"currentRoundSeq":6,"lastGameDate":"201805200115"}])),
+        numGameHighlight = "0" || 0,
+        numGameNews = "6" || 0,
+        NS = namespace("SPORTS_GAMECENTER"),
+        paramObj = Util.queryStringToObject(),
+        tvpotLiveData = new Object(),
+        now = "20180616171644";
+        gameInfo.isTvpotLive = false;
+
+    var app = new NS.PcApp({
+        el: "#kakaoWrap",
+        serverTime: now,
+        gameInfo: gameInfo,
+        paramObj: paramObj,
+        leagueRoundInfo: leagueInfo,
+        alacarteData: {
+            numGameHighlight: numGameHighlight,
+            numGameNews : numGameNews,
+            paramObj: paramObj
+        },
+        isDev: "false" === "true"
+    });
+
+    app.start();
+
+    if(gameInfo.league.leagueCode === "WORLDCUP") {
+        jQuery.ajax({
+            "url": "http://display.ad.daum.net/imp?slotid=DAN-vbhw9n9iiuyg,DAN-r1g3e1g8644m&templateid=10",
+            "dataType": "jsonp",
+            "jsonp": "cb",
+            "jsonpCallback": "WcAdPackageCallback"
+        }).done(function (data) {
+            for (var i = 0; i < data.content.length; i++) {
+                try {
+                    var fnc = data.content[i].toString().replace("<!--adid=iVhE-->", "");
+                    jQuery.globalEval(fnc);
+                } catch (ex) {
+                }
+            }
+        });
+    } else {
+        var displayAd = namespace("DisplayAd");
+        var adOptions = {
+            type: "top,skin",
+            pf: NS.CONFIG.platform || ua_result.platform,
+            category: gameInfo.event.eventCode
+        };
+
+        if(displayAd){
+            displayAd.load(adOptions);
+        }
+    }
+});
+</script>
+
+                <div id="kakaoFoot" class="footer_comm" role="contentinfo">
+    <h2 class="screen_out">서비스 이용정보</h2>
+    <div class="footer_link">
+        <a href="http://media.daum.net/info/intro.html" class="link_info" target="_blank">다음뉴스 소개</a>
+        <span class="txt_bar">|</span>
+        <a href="http://media.daum.net/info/notice/" class="link_info" target="_blank">공지사항</a>
+        <span class="txt_bar">|</span>
+        <a href="http://media.daum.net/info/bbsrule.html" class="link_info" target="_blank">게시판 운영원칙</a>
+        <span class="txt_bar">|</span>
+        <a href="http://policy.daum.net/info/info" class="link_info" target="_blank">서비스 약관/정책</a>
+        <span class="txt_bar">|</span>
+        <a href="http://biz.daum.net/" class="link_info" target="_blank">광고안내</a>
+        <span class="txt_bar">|</span>
+        <a href="https://cs.daum.net/redbell/top.html" class="link_info" target="_blank">권리침해신고</a>
+        <span class="txt_bar">|</span>
+        <a href="http://cs.daum.net/faq/63.html" class="link_info" target="_blank">다음뉴스 고객센터</a>
+    </div>
+    <div class="footer_link">
+        <a href="http://media.daum.net/info/newscenter24.html" class="link_info" target="_blank">24시간 뉴스센터</a>
+        <span class="txt_bar">|</span>
+        <a href="http://media.daum.net/info/edit.html" class="link_info" target="_blank">편집원칙</a>
+        <span class="txt_bar">|</span>
+        <span class="link_info">기사배열책임자 : 임선영</span>
+        <span class="txt_bar">|</span>
+        <span class="link_info">청소년보호책임자 : 이병선</span>
+    </div>
+    <p class="info_notice">위 내용에 대한 저작권 및 법적 책임은 자료제공사 또는 글쓴이에 있으며, Kakao의 입장과 다를 수 있습니다.</p>
+    <small class="info_copyright">© <a href="http://www.kakaocorp.com/" target="_blank" class="link_daumkakao">Kakao Corp.</a></small>
+</div>            </div>
+        </div>
+    </div>
+    <hr class="hide">
+</div>
+    <script type="text/javascript" src="http://t1.daumcdn.net/media/static/media-710/dist/sports/js/gamecenter/soccer/displayAd.min.js"></script>
+</body>
+</html>

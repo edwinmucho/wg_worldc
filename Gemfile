@@ -5,6 +5,12 @@ gem 'figaro'
 gem 'awesome_print'
 gem 'rails_db'
 
+gem 'capybara', '~> 2.1'
+# gem "capybara-webkit", "~> 1.15.0"
+gem 'poltergeist', '~> 1.5.1'
+gem 'phantomjs', :require => 'phantomjs/poltergeist'
+gem 'rspec-rails', '~> 3.7'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record

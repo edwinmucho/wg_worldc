@@ -128,13 +128,13 @@ class KakaoController < ApplicationController
     end
 ##########################################################    
     def infotoday(user_key)
-        temp_msg, temp_key = init_state("오늘 일정 입니다.",user_key)
+        temp_msg, temp_key = init_state("오늘의 경기 입니다.",user_key)
         
         return temp_msg, temp_key, false
     end
 ##########################################################    
     def game_result(user_key)
-        temp_msg, temp_key = init_state("게임 결과 입니다.",user_key)
+        temp_msg, temp_key = init_state("경기 결과 입니다.",user_key)
         
         return temp_msg, temp_key, false
     end
