@@ -14,23 +14,21 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   socket: /var/run/mysqld/mysqld.sock
+  username: <%= ENV['MYSQL_ID'] %>
+  password: <%= ENV['MYSQL_PW'] %>
 
 development:
-  adapter: mysql2
-  encoding: utf8
-  database: c9
-  username: <%=ENV['C9_USER']%>
-  host: <%=ENV['IP']%>
-  
+  <<: *default
+  database: wc_development 
 test:
   <<: *default
-  database: c9
+  database: wc_test
 
 production:
   <<: *default
-  database: c9
-  username: <%=ENV['C9_USER']%>
-  password: <%= ENV['TESTAPP_DATABASE_PASSWORD'] %>  
+  database: wg_worldcup
+  username: <%= ENV['PRODUCT_ID'] %>
+  password: <%= ENV['PRODUCT_PW'] %>  
 # development:
 #   <<: *default
 #   database: db/development.sqlite3

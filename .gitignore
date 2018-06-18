@@ -33,5 +33,3 @@ public/assets/*
 /app/views/homepage/*.backup.erb
 
 /config/*.yml
-# Ignore application configuration
-/config/application.yml

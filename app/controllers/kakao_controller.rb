@@ -168,7 +168,7 @@ class KakaoController < ApplicationController
         temp_text = ["오늘의 경기 일정 (굿)\n"]
         schedule.each do |g|
         
-        playstatus = "#{g["gameStatus"]} (제발)"
+        playstatus = "#{g["state"]} (제발)"
         if g["gameStatus"].eql? "BEFORE"
             playstatus = "아직 경기전 (꺄아)"            
         elsif g["gameStatus"].eql? "RESULT"
@@ -181,7 +181,7 @@ class KakaoController < ApplicationController
         temp = []
         text = temp_text.join("\n")        
         label = "전체 경기 일정"
-        url = "http://m.sports.media.daum.net/sports/wc/russia/schedule?tab=day"
+        url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
         
         temp.push(text)
         temp.push(label)
@@ -264,7 +264,7 @@ class KakaoController < ApplicationController
         temp = []
         text = "⚽월드컵 최신 뉴스 알아보기🏆\n"
         label = "오늘의 최신 뉴스"
-        url = "http://m.sports.media.daum.net/sports/wc/russia/news/breaking"
+        url = "http://m.sports.media.daum.net/m/sports/wc/russia/news/breaking"
         
         temp.push(text)
         temp.push(label)
