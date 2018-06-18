@@ -1,0 +1,18 @@
+<div>
+    <h1>Main page</h1>
+</div>
+
+<form action='/dkdkdlwkd/dlqslek_country'>
+    <h3>
+    국가 저장 현황  : 
+    <%=@country_cnt %><br/>
+    <% if @country_cnt < 10 %>
+        <input type='submit' value='저 to the 장' data-disable-with="Please wait..."> 
+    <%end%>
+    (32개 국가)<br/>
+    </h3>
+</form>
+
+
+<a href='/db/destroypage'>[DB 삭제 페이지로 가기]</a><br>
+<a href='/rails/db'>[DB 보러 가기]</a>

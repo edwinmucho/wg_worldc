@@ -7,6 +7,20 @@ Rails.application.routes.draw do
   delete "friend/:user_key" => "kakao#friend_del"
   post   "friend/:user_key" => "kakao#friend_add"
   
+  get '/dkdkdlwkddlqslek' => 'savedb#loginpage'
+  get '/dkdkdlwkd/dlqslek_country' => 'savedb#savecountry'
+  get '/dkdkdlwkd/dlqslek_gsg' => 'savedb#savegsg'
+  get '/dkdkdlwkd/dlqslek_emd' => 'savedb#saveemd'
+  post '/dkdkdlwkd/dlqslek_des' => 'savedb#destroy_db'
+  
+  get 'db/check_pw' => 'savedb#check_pw'
+  get 'db/loginpage' => 'savedb#loginpage'
+  get 'db/mainpage' => 'savedb#mainpage'
+  get 'db/destroypage' => 'savedb#destroypage'
+  get 'db/saveemd' => 'savedb#saveemd'
+  get 'db/savegsg' => 'savedb#savegsg'
+  get 'db/savesido' => 'savedb#savesido'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -25,8 +25,9 @@ ActiveRecord::Schema.define(version: 20180618030437) do
 
   create_table "countries", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.string   "flag_url",   limit: 255
     t.string   "group",      limit: 255
+    t.string   "code",       limit: 255
+    t.string   "flag_url",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
