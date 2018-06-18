@@ -8,7 +8,7 @@ class SavedbController < ApplicationController
     end
 
     def check_pw
-        if params[:pw] == "dnjfrkscotqht1!"
+        if params[:pw] == ENV["ADMIN_PW"]
             session[:login] = true
             redirect_to '/db/mainpage'
         else
