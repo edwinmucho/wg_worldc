@@ -165,10 +165,17 @@ class KakaoController < ApplicationController
             end
         end
         
-        temp_text = ["오늘의 경기 일정\n"]
+        temp_text = ["오늘의 경기 일정 (굿)\n"]
         schedule.each do |g|
+        
+        playstatus = "#{g["gameStatus"]} (제발)"
+        if g["gameStatus"].eql? "BEFORE"
+            playstatus = "아직 경기전 (꺄아)"            
+        elsif g["gameStatus"].eql? "RESULT"
+            g["gameStatus"] = "경기 끝남 (컴온)"
+        end
             temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
-#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]} #{g["gameStatus"]}\n\
+#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]} #{playstatus}\n\
 #{@@nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{@@nation_flag[g["awayTeamName"]]}\n"
         end
         temp = []
@@ -243,7 +250,7 @@ class KakaoController < ApplicationController
             if not h["gameStatus"].eql? "BEFORE" and not (h["gameStartTime"] < "06:00" and h["gameStartDate"].eql? yesterday)
                 # ap "#{h["tournamentGameText"]} #{h["homeTeamName"]} #{h["awayTeamName"]}"
                 tmp_url = "bit.ly/#{daum_highlight[h["homeTeamName"]][h["awayTeamName"]]}"
-                tmp_text = "#{h["tournamentGameText"]}\n#{h["homeTeamName"]} #{h["homeTeamScore"]} vs #{h["awayTeamScore"]} #{h["awayTeamName"]}\n하이라이트보기\n[#{tmp_url}]\n"
+                tmp_text = "#{h["tournamentGameText"]} #{h["gameStartDate"].to_date.strftime("%d")}일 #{h["gameStartTime"]}\n#{h["homeTeamName"]} #{h["homeTeamScore"]} vs #{h["awayTeamScore"]} #{h["awayTeamName"]}\n하이라이트보기 (좋아)\n[#{tmp_url}]\n"
                 gameresult.push(tmp_text)
             end
         end

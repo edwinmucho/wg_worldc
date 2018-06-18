@@ -11,11 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612182926) do
+ActiveRecord::Schema.define(version: 20180618030437) do
+
+  create_table "buglists", force: :cascade do |t|
+    t.string   "user_key",   limit: 255
+    t.string   "err_msg",    limit: 255
+    t.string   "usr_msg",    limit: 255
+    t.string   "mstep",      limit: 255
+    t.string   "fstep",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "countries", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "flag_url",   limit: 255
+    t.string   "group",      limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
