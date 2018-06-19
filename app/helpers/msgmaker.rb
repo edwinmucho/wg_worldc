@@ -183,9 +183,8 @@ module Msgmaker
                   "[#{user.country.name}] #{btn[1]}",
                   "[#{user.country.name}] #{btn[2]}", 
                   "[#{user.country.name}] #{btn[3]}", 
-                  "[#{user.country.name}] #{btn[4]}", 
-                  btn[5], 
-                  btn[6]]
+                  btn[4], 
+                  btn[5]]
             return menu_btn
         end
     end

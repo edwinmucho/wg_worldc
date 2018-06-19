@@ -8,7 +8,7 @@ class KakaoController < ApplicationController
     @@user = {}
     
     MENU_STEP_MYTEAM  =     "[ 내 응원팀 보기 ]"
-    MENU_STEP_INFO    =     "월드컵 경기 일정"
+    MENU_STEP_INFO    =     "오늘 경기 일정"
     MENU_STEP_HIGHLIGHT =   "어제 경기 하이라이트"
     MENU_STEP_NEWS    =     "월드컵 최신 뉴스"
     MENU_STEP_RANKING =     "월드컵 조별 순위"
@@ -184,8 +184,7 @@ class KakaoController < ApplicationController
         
         # 2~5 번째 메뉴만 순서 바꿀 수 있음. (첫번째, 여섯번째, 일곱번째는 메뉴 순서 변경 불가!)
         t_menu = [FUNC_STEP_MYTEAM_CURR, # 위치 변경 안됨.
-                  FUNC_STEP_MYTEAM_SCHE, FUNC_STEP_MYTEAM_HILI, 
-                  FUNC_STEP_MYTEAM_RANK, FUNC_STEP_MYTEAM_NEWS, 
+                  FUNC_STEP_MYTEAM_SCHE, FUNC_STEP_MYTEAM_HILI, FUNC_STEP_MYTEAM_NEWS, 
                   FUNC_STEP_MYTEAM_SET2, # 위치 변경 안됨.
                   FUNC_STEP_HOME         # 위치 변경 안됨.
                   ]
@@ -432,11 +431,27 @@ class KakaoController < ApplicationController
     def wc_rank(user_key)
         temp_msg, temp_key = init_state(user_key)
 
-        text = "(수줍)\n\"2018 러시아 월드컵🏆 전체 순위를 알아볼까요?\"\n"
-        label = "전체 그룹 순위"
+        user = User.where(user_key:user_key)[0]
+        
+        if user.country_id.nil? or user.country_id.eql? ""
+            text = "(수줍)\n\"2018 러시아 월드컵🏆 전체 순위를 알아볼까요?\"\n"
+        else
+            mkjs = Jsonmaker::Crawling.new
+            groupdata = mkjs.group["Group#{user.country.group}"]
+            rank = Array.new
+            groupdata.each do |g|
+                teamname = (user.country.name.eql? g["teamName"]) ? "#{g["teamName"]} ❤️": "#{g["teamName"]}"
+                rank.push("#{g["rank"]}위 #{teamname}\n#{g["win"]}승 #{g["draw"]}무 #{g["lose"]}패 #{g["goalDifference"]}(#{g["own"]}/#{g["against"]})골 #{g["point"]}점")
+            end
+
+            temp = ["(발그레) \"#{user.country.group}조 순위입니다.\""]
+            text= temp.push(rank).join("\n-----------------\n")
+        end
+        label = "전체 조별 순위"
         url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule/groupstage"
 
-        temp_msg = [text,label,url]
+        temp_msg = [text, label, url]        
+
         return temp_msg, temp_key, true
     end
 ##########################################################    
