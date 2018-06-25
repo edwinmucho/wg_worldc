@@ -13,6 +13,16 @@
     </h3>
 </form>
 
+<form action='/dkdkdlwkd/dlqslek_game'>
+    <h3>
+    전체 경기 일정  : 
+    <%=@game_cnt %><br/>
+    <% if @game_cnt < 10 %>
+        <input type='submit' value='저 to the 장' data-disable-with="Please wait..."> 
+    <%end%>
+    (48 경기)<br/>
+    </h3>
+</form>
 
 <a href='/db/destroypage'>[DB 삭제 페이지로 가기]</a><br>
 <a href='/rails/db'>[DB 보러 가기]</a>

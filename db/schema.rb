@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180618030437) do
+ActiveRecord::Schema.define(version: 20180621171139) do
 
   create_table "buglists", force: :cascade do |t|
     t.string   "user_key",   limit: 255
@@ -28,6 +28,40 @@ ActiveRecord::Schema.define(version: 20180618030437) do
     t.string   "group",      limit: 255
     t.string   "code",       limit: 255
     t.string   "flag_url",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "forecasts", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "game_id",    limit: 4
+    t.string   "f_home",     limit: 255
+    t.string   "f_away",     limit: 255
+    t.string   "f_guess",    limit: 255
+    t.integer  "f_hs",       limit: 4
+    t.integer  "f_as",       limit: 4
+    t.boolean  "ispredict"
+    t.integer  "get_point",  limit: 4,   default: 0
+    t.integer  "get_alpha",  limit: 4
+    t.integer  "corr_count", limit: 4,   default: 0
+    t.boolean  "isapply"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "forecasts", ["game_id"], name: "fk_rails_fc6a9d4360", using: :btree
+  add_index "forecasts", ["user_id"], name: "fk_rails_69c972f93b", using: :btree
+
+  create_table "games", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.string   "home",       limit: 255
+    t.string   "away",       limit: 255
+    t.string   "game_date",  limit: 255
+    t.string   "game_time",  limit: 255
+    t.string   "game_state", limit: 255
+    t.string   "result",     limit: 255
+    t.integer  "r_hs",       limit: 4
+    t.integer  "r_as",       limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
@@ -88,10 +122,14 @@ ActiveRecord::Schema.define(version: 20180618030437) do
     t.integer  "country_id", limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "nick",       limit: 255
+    t.integer  "point",      limit: 4
   end
 
   add_index "users", ["country_id"], name: "fk_rails_7325e2cdfa", using: :btree
 
+  add_foreign_key "forecasts", "games"
+  add_foreign_key "forecasts", "users"
   add_foreign_key "managers", "countries"
   add_foreign_key "players", "countries"
   add_foreign_key "tactics", "countries"

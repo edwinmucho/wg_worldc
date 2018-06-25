@@ -13,6 +13,7 @@ class KakaoController < ApplicationController
     MENU_STEP_NEWS    =     "월드컵 최신 뉴스"
     MENU_STEP_RANKING =     "월드컵 조별 순위"
     MENU_STEP_PLAYER  =     "선수 검색"
+    MENU_STEP_BATTING =     "[테스트]승패 맞추기"
     
     FUNC_STEP_INIT    =    0
     FUNC_STEP_STAY    =    -1
@@ -29,11 +30,24 @@ class KakaoController < ApplicationController
     FUNC_STEP_MYTEAM_CURR = "현재 응원팀:"
     
     FUNC_STEP_HOME        = "[ 처음으로 가기 ]"
+    FUNC_STEP_SAVE        = "저장중"
     
     DEFAULT_MESSAGE       = "(아잉)\n\"안녕하세요. 월드컵알리미 입니다.\""
     DEFAULT_MYTEAM_MSG    = "(우와)\n\"어디 한번 골라 볼까용?\"" 
 
-    @@main_menu = [MENU_STEP_MYTEAM, MENU_STEP_INFO, MENU_STEP_HIGHLIGHT, MENU_STEP_NEWS, MENU_STEP_RANKING]
+    BATTING_POINT = 10
+    ALPHA_POINT   = 5
+    
+    SEPERATE          = "-"*10
+    FUNC_STEP_BATTING = "승패 예측 하러가기"
+    FUNC_STEP_RESULT  = "승패 예측 결과 확인"
+    FUNC_STEP_RANK    = "전체 예측 순위"
+    
+    NEXT_STEP_GUESS_HOME = 0
+    NEXT_STEP_GUESS_AWAY = 1
+    NEXT_STEP_GUESS_CALC = 2
+    
+    @@main_menu = [MENU_STEP_BATTING, MENU_STEP_MYTEAM, MENU_STEP_INFO, MENU_STEP_HIGHLIGHT, MENU_STEP_NEWS, MENU_STEP_RANKING]
 
     def keyboard
         msg, keyboard = init_state("init_state")
@@ -46,16 +60,19 @@ class KakaoController < ApplicationController
         user_key = params[:user_key]
         
         # 시간 설정
-        today = Time.now.getlocal('+09:00')
+        today = Time.zone.now#.getlocal('+09:00')
         date = today.strftime("%Y%m%d")
         time = today.strftime("%H:%M")
-        
+# ap "Time >>>>>"        
+# ap date
+# ap time
+# ap User.find(1).updated_at.strftime("%Y%m%d %H:%M")
         temp_msg, temp_key = init_state("init_state")
 
         check_user(user_key)
 # ap "User Check >>>>>"        
 # ap @@user[user_key]
-        if temp_key[:buttons].include? user_msg and (@@user[user_key][:fstep][-1] > FUNC_STEP_INIT)
+        if temp_key[:buttons].include? user_msg and (@@user[user_key][:fstep][-1] != FUNC_STEP_INIT)
             init_state(user_key)
         end
         
@@ -64,7 +81,7 @@ class KakaoController < ApplicationController
             @@user[user_key][:mstep] = user_msg if temp_key[:buttons].include? user_msg
         end
         
-        begin
+        # begin
     #   각 메뉴 진입.
             case @@user[user_key][:mstep]
             
@@ -78,6 +95,9 @@ class KakaoController < ApplicationController
                 temp_msg, temp_key, ismsgBtn = wc_news(user_key)
             when MENU_STEP_RANKING
                 temp_msg, temp_key, ismsgBtn = wc_rank(user_key)
+            when MENU_STEP_BATTING
+                temp_msg, temp_key, ismsgBtn = check_batting(user_key, time, date)
+                # temp_msg, temp_key, ismsgBtn = wc_batting(time, date)
             # when MENU_STEP_PLAYER
             #     temp_msg, temp_key, ismsgBtn = whoishe(user_key)
             else
@@ -85,11 +105,11 @@ class KakaoController < ApplicationController
             end
       
           # 에러 발생시 여기로 옴. #에러 로그를 여기서!
-          rescue Exception => e
-            err_msg = "#{e.message} ( #{e.backtrace.inspect.scan(/\/[a-zA-Z_]+\/[a-zA-Z_.:0-9]+in /)[0]} )"
-            Buglist.create(user_key: user_key, err_msg: err_msg, usr_msg: user_msg, mstep: @@user[user_key][:mstep], fstep: @@user[user_key][:fstep])
-            temp_msg, temp_key = init_state("(흑흑)\n\"불편을 드려 죄송합니다.\n신속한 수정이 이뤄지도록 하겠습니다.\n감사합니다.\"",user_key)
-        end
+        #   rescue Exception => e
+        #     err_msg = "#{e.message} ( #{e.backtrace.inspect.scan(/\/[a-zA-Z_]+\/[a-zA-Z_.:0-9]+in /)[0]} )"
+        #     Buglist.create(user_key: user_key, err_msg: err_msg, usr_msg: user_msg, mstep: @@user[user_key][:mstep], fstep: @@user[user_key][:fstep])
+        #     temp_msg, temp_key = init_state("(흑흑)\n\"불편을 드려 죄송합니다.\n신속한 수정이 이뤄지도록 하겠습니다.\n감사합니다.\"",user_key)
+        # end
         
         
         if ismsgBtn
@@ -367,15 +387,18 @@ class KakaoController < ApplicationController
         schedule.each do |g|
         
             playstatus = "⚽#{g["state"]}⚽"
+            cmt = "문자중계"
             if g["gameStatus"].eql? "BEFORE"
                 playstatus = "(꺄아)\"경기 전!\""            
+                cmt = "전력분석"
             elsif g["gameStatus"].eql? "RESULT"
                 playstatus = "(컴온)\"경기 끝남\""
+                cmt = "하이라이트"
             end
             temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
 [#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]}] #{playstatus}\n\
 #{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n\
-전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
+#{cmt}:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
                     
         end
         
@@ -460,4 +483,316 @@ class KakaoController < ApplicationController
         
         return temp_msg, temp_key, false
     end    
+##########################################################
+    def check_batting(user_key, time, date)
+        user = User.find_by(user_key: user_key)
+        ismsgBtn = false
+        
+        menu = [FUNC_STEP_BATTING, FUNC_STEP_RESULT, FUNC_STEP_RANK, FUNC_STEP_HOME]
+        if user.nick.nil? or user.nick.size.eql? 0
+            tmp_msg, tmp_key = set_nickname(user_key, menu)
+        else
+            tmp_msg, tmp_key, ismsgBtn = wc_batting(menu, time, date)
+        end
+        return tmp_msg, tmp_key, ismsgBtn
+    end
+##########################################################
+    def wc_batting(menu, time, date)
+        user_key = params[:user_key]
+        user_msg = params[:content]
+        ismsgBtn = false
+        
+        
+        # tmp_msg, temp_key = init_state(user_key)
+
+        fstep = @@user[user_key][:fstep][-1] # 최신 fstep 
+        user = User.find_by(user_key: user_key)
+
+        if user_msg.eql? FUNC_STEP_HOME
+            tmp_msg, tmp_key = init_state(user_key)
+        elsif user_msg == "이전" or user_msg == "메뉴로"
+        # Nstep 이전 처리해야함. 배팅에서 이전으로 오는 경우도 있음.
+            tmp_msg = "메뉴를 골라주세요."
+            tmp_key = @@key.getBtnKey(menu)
+            @@user[user_key][:fstep].pop
+        else
+            # 배팅 펑션 메뉴 위치
+            if fstep == FUNC_STEP_INIT
+                # 현재 Game DB Update
+                game = Game.all
+                update_gamestate(game, date, time)
+                update_foreresult(game, date, time)
+                update_userpoint(game, date, time)
+                # 메뉴 버튼식 / 코멘트
+                # Next Function 으로 Push 필요.
+                tmp_msg = "메뉴를 골라주세요."
+                tmp_key = @@key.getBtnKey(menu)
+                @@user[user_key][:fstep].push(FUNC_STEP_SELECT)
+            elsif fstep == FUNC_STEP_SELECT
+                # user_msg 어떤 메뉴 선택 했는지 확인.
+                if user_msg == FUNC_STEP_BATTING
+                    # Game 에 경기 상태 업데이트/버튼 목록 가져오기.
+                    tmp_btn = check_game(date, time).push("이전")
+                    
+                    @@user[user_key][:fstep].push(FUNC_STEP_BATTING)
+                    @@user[user_key][:nstep] = [NEXT_STEP_GUESS_HOME]
+                    tmp_msg = "어느 경기를 예측해 볼랑가요?"
+                    tmp_key = @@key.getBtnKey(tmp_btn)                
+                elsif user_msg == FUNC_STEP_RESULT
+                    # 유저 정보 불러와서 배팅 상황 카톡 혹은 웹 구현
+                    # 최신 3개 정보만 확인.
+                    temp = Array.new
+                    user.forecast.last(3).reverse.each do |fore|
+                        time = "#{fore.game.game_date.to_date.strftime("%d일")} #{fore.game.game_time} "
+                        title = fore.game.title
+                        guess = (fore.f_guess.eql? "Home") ? "#{fore.f_home}팀 승리" : (fore.f_guess.eql? "Away") ? "#{fore.f_away}팀 승리" : "무승부"
+                        predict = "예상 : #{fore.f_hs} : #{fore.f_as} #{guess}"
+                        if fore.game.game_state.eql? "BEFORE"
+                            time.concat "경기 전"
+                            point = SEPERATE
+                        elsif fore.game.game_state.eql? "RESULT"
+                            time.concat "경기 종료"
+                            real = (fore.game.result.eql? "Home") ? "#{fore.f_home}팀 승리" : (fore.game.result.eql? "Away") ? "#{fore.f_away}팀 승리" : "무승부"
+                            result = "결과 : #{fore.game.r_hs} : #{fore.game.r_as} #{real}"
+                            point = "획득 : 승부(#{fore.get_point}p) 골보너스(#{fore.get_alpha}p)\n"
+                            if fore.get_point == 0
+                                point.concat "참가자 전원이 맞췄습니다." 
+                            end
+                            point.concat "#{SEPERATE}"
+                        else 
+                            js = Jsonmaker::Crawling.new
+                            js.schedule["dailyScheduleListMap"][fore.game.game_date].each do |game|
+                                if game["gameStartTime"].eql? fore.game.game_time
+                                    result = "(#{game["state"]})\n #{game["homeTeamName"]} #{game["homeTeamScore"]} : #{game["awayTeamScore"]} #{game["awayTeamName"]}"
+                                    break
+                                end
+                            end
+                            time.concat "경기 중"
+                            point = SEPERATE
+                        end
+                        temp.push([time,title,predict,result,point].join("\n"))
+                    end
+                    # 메뉴 버튼식(같은 레벨단) / 코멘트
+                    tmp_msg = temp.join("\n")
+                    tmp_key = @@key.getBtnKey(menu)
+                elsif user_msg == FUNC_STEP_RANK
+                    # 전체 정보 불러와서 순위 구현 (카톡 or 웹)
+                    # 메뉴 버튼식 (같은 레벨단) / 코멘트
+                    text = ["예언가 TOP 10"]
+                    User.all.order(point: :desc).first(10).to_enum.with_index.each do |rank, i|
+                        text.push "#{i+1} #{rank.nick} | #{rank.point}"
+                    end
+                    tmp_msg = text.join("\n")
+                    tmp_key = @@key.getBtnKey(menu)
+                else
+                    tmp_msg, tmp_key = init_state(user_key)
+                end
+                
+            elsif fstep == FUNC_STEP_BATTING
+                nstep = @@user[user_key][:nstep][-1]
+                user = User.find_by(user_key: user_key)
+                btn = ('0'..'9').to_a.unshift("메뉴로")
+
+                if nstep == NEXT_STEP_GUESS_HOME
+                    # user_msg = 경기 목록이 될 예정.
+                    @@user[user_key][:title] = user_msg.gsub(/ (?<num>[0-9]{2})일 \g<num>:\g<num>/,"")
+                    home = @@user[user_key][:title].split[2]
+                    tmp_msg = "#{home}팀은 몇골 넣을거 같음?"
+                    tmp_key = @@key.getBtnKey(btn)
+                    @@user[user_key][:nstep].push(NEXT_STEP_GUESS_AWAY)
+                elsif nstep == NEXT_STEP_GUESS_AWAY
+                    # user_msg = 홈틸 골 수
+                    @@user[user_key][:hs] = user_msg.to_i
+                    # 원정팀이 몇골 넣을 건지 예측.
+                    away = @@user[user_key][:title].split[4]
+                    tmp_msg = "#{away}팀은 몇골 넣을거 같음?"
+                    tmp_key = @@key.getBtnKey(btn)
+                    @@user[user_key][:nstep].push(NEXT_STEP_GUESS_CALC)
+                elsif nstep == NEXT_STEP_GUESS_CALC
+                    # user_msg = 원정팀 골 수
+                    # 홈이 이길지 원정이 이길지 Check
+                    title = @@user[user_key][:title]
+                    home_score = @@user[user_key][:hs].to_i
+                    away_score = user_msg.to_i
+                    home = @@user[user_key][:title].split[2]                    
+                    away = @@user[user_key][:title].split[4]
+                    isdraw = false
+                    
+                    guess = (home_score > away_score) ? "Home" : (away_score > home_score) ? "Away" : "Draw"
+                    
+                    user_game = user.games.find_by(title: title)
+                    if not user_game.nil?
+                        user.forecast.find_by(game_id: user_game.id)
+                                     .update(f_guess: guess, f_hs: home_score, f_as: away_score)
+                    else
+                        game_id = Game.find_by("? like title", title).id
+                        Forecast.create(user_id: user.id, game_id: game_id,f_home: home, f_away: away,\
+                                         f_guess: guess, f_hs: home_score, f_as: away_score, isapply: false, corr_count: 0)
+                    end
+
+                    tmp_msg = "등록이 완료 되었습니다.\n 경기 종료 후 확인이 가능합니다.\n 예상은 경기 시작전 까지 수정이 가능합니다."
+                    tmp_key = @@key.getBtnKey(menu)
+                    @@user[user_key].delete(:nstep)
+                    @@user[user_key].delete(:title)
+                    @@user[user_key].delete(:hs)
+                    @@user[user_key][:fstep].pop
+                else
+                    # 기타 에러 처림.. 
+                end
+
+            else
+                # 기타.. 에러 처리
+            end
+        end
+
+        
+        return tmp_msg, tmp_key, ismsgBtn
+    end
+##########################################################
+    def check_game(date, time)
+
+        btn = Array.new
+        game = Game.all
+
+        if game.exists?
+            # update_gamestate(game, date, time)
+            btn = get_gamebtn(game, date, time)
+        else
+            btn = ["이전"]
+        end
+
+        return btn
+    end
+##########################################################
+    def update_gamestate(game, date, time)
+
+        js = Jsonmaker::Crawling.new
+
+        yest = (date.to_i - 1).to_s
+        data = js.schedule["dailyScheduleListMap"][yest]
+        data.push(js.schedule["dailyScheduleListMap"][date])
+        data = data.flatten(1)
+
+        # 현재 데이터를 기반으로 DB 업데이트
+        data.each do |d|
+            # 경기 중이거나 경기 끝난 부분 업데이트
+
+            unless d["gameStatus"].eql? "BEFORE"
+                result = d["homeTeamWon"] ? "Home" : d["awayTeamWon"] ? "Away" : "Draw"
+                ActiveRecord::Base.transaction do
+                    # need_update = game.find_by("game_date = ? AND game_time = ?", yest, d["gameStartTime"]) if need_update.nil?
+                    need_update = game.find_by("game_date = ? AND game_time = ?", d["gameStartDate"], d["gameStartTime"])
+                    if not need_update.nil?
+                        need_update.update(game_state: d["gameStatus"], result: result, r_hs: d["homeTeamScore"].to_i, r_as: d["awayTeamScore"].to_i)
+                    end
+                end
+            end
+            
+        end
+    end
+#########################################################
+    def get_gamebtn(game, date, time)
+
+        list = Array.new
+        tomor = (date.to_i + 1).to_s
+        
+        if time < "05:00"
+            list.push(game.where("game_date = ? AND game_state = \"BEFORE\"", date).pluck(:title, :game_date, :game_time))
+        else
+            list.push(game.where("(game_date = ? AND game_time > \"05:00\" AND game_state = \"BEFORE\")", date).pluck(:title, :game_date, :game_time))
+            list.push(game.where("(game_date = ? AND game_time <= \"05:00\" AND game_state = \"BEFORE\")", tomor).pluck(:title, :game_date, :game_time))
+        end
+        
+        btn = Array.new
+        list.flatten(1).each do |title, date, time|
+            btn.push("#{title} #{date.to_date.strftime("%d일")} #{time}")
+        end
+
+        return btn
+    end
+#########################################################
+    def update_foreresult(game, date, time)
+        # 어제 전체 경기와 오늘 현재시간 이전의 경기 기준.
+        game_list = game.where("game_date = ? OR (game_date = ? AND game_time < ?)",(date.to_i - 1).to_s, date, time)
+        # 각 경기별 유저의 forecast를 update
+        game_list.each do |g|
+            # 예측한 경기 결과
+            g.forecast.each do |f|
+                f.ispredict = (g.result.eql? f.f_guess)? true : false
+                f.save!
+            end
+        end
+    end
+########################################################
+    def update_userpoint(game, date, time)
+        # 어제 게임 / 오늘 현시간 이전 게임 리스트
+        game_list = game.where("game_date = ? OR (game_date = ? AND game_time < ?)",(date.to_i - 1).to_s, date, time)
+        game_list.each do |game|
+# ap game.users            
+            if game.game_state == "RESULT"
+                guess_total = game.forecast.count
+
+                game.forecast.each do |fore|
+                    if fore.ispredict
+                        corr_guess = game.forecast.where(ispredict: true).count
+# ap "guess total : #{guess_total}"
+# ap "corr guess : #{corr_guess}"
+# ap ((BATTING_POINT * guess_total) / corr_guess) - BATTING_POINT                        
+                        fore.get_point = ((BATTING_POINT * guess_total) / corr_guess) - BATTING_POINT
+# ap fore
+                        fore.corr_count+=1
+# ap "corr guess : #{corr_guess}"
+                    else
+                        fore.get_point = -BATTING_POINT                        
+                    end
+                    fore.get_alpha = ALPHA_POINT * (((game.r_hs.eql? fore.f_hs)? 1 : 0) + ((game.r_as.eql? fore.f_as)? 1 : 0))
+
+                    fore.user.point = 0 if fore.user.point.nil?
+                    fore.user.point = fore.user.point + fore.get_point + fore.get_alpha
+                    
+                    unless fore.isapply?
+                        fore.isapply = true
+                        fore.save!
+                        fore.user.save! 
+                    end
+                end
+                
+            end
+        end
+    end
+#######################################################
+    def set_nickname(user_key, menu)
+        user_msg = params[:content]
+        
+        fstep = @@user[user_key][:fstep][-1]
+        user = User.all
+# ap "set nickname>>>"        
+# ap fstep
+# ap user_msg
+        if user_msg == "홈" or user_msg == "이전"
+            tmp_msg, tmp_key = init_state(user_key)
+        else
+            if fstep.eql? FUNC_STEP_INIT
+                tmp_msg = "별명을 먼저 설정하고 가시겠습니다."
+                tmp_key = @@key.getTextKey
+                @@user[user_key][:fstep].push(FUNC_STEP_SAVE)
+            elsif fstep.eql? FUNC_STEP_SAVE
+                if user.where(nick: user_msg).exists?
+                    tmp_msg = "이미 있는 별명입니다."
+                    tmp_key = @@key.getTextKey
+                else
+                    user.find_by(user_key: user_key).update(nick: user_msg)
+                    tmp_msg = "#{user_msg} 로 별명이 설정되었습니다."
+                    tmp_key = @@key.getBtnKey(menu)
+                end
+            else
+                # 잘못 누른 경우.
+                
+            end
+        end
+        
+        
+        return tmp_msg, tmp_key, false
+    end
+
 end

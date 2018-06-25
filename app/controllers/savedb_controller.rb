@@ -21,6 +21,7 @@ class SavedbController < ApplicationController
             redirect_to '/db/loginpage'
         end
         @country_cnt = Country.all.count
+        @game_cnt = Game.all.count
     end
     
     def destroypage
@@ -28,6 +29,7 @@ class SavedbController < ApplicationController
             redirect_to '/db/loginpage'
         end
         @country_cnt = Country.all.count
+        @game_cnt = Game.all.count
     end
     
     def destroy_db
@@ -35,8 +37,8 @@ class SavedbController < ApplicationController
         begin
             if params[:target] == "country"
                 Country.delete_all
-            # elsif params[:target] == "gsg"
-            #     Gusigun.delete_all
+            elsif params[:target] == "game"
+                Game.delete_all
             # elsif params[:target] == "emd"
             #     Emd.delete_all
             else
@@ -80,5 +82,24 @@ class SavedbController < ApplicationController
             code[n] = c
         end
         return code
+    end
+    
+    def makegamelist
+        js = Jsonmaker::Crawling.new
+        data = js.schedule
+        
+        data["dailyScheduleListMap"].each do |date, game|
+            game.each do |g|
+                if g["phaseName"].eql? "조별예선"
+                    title = "#{g["tournamentGameText"]} #{g["homeTeamName"]} vs #{g["awayTeamName"]}"
+                    Game.create(title: title, home: g["homeTeamName"], away: g["awayTeamName"],\
+                                game_date: g["gameStartDate"], game_time: g["gameStartTime"], game_state: g["gameStatus"])
+                else
+                    ap "토너먼트는 아직 저장 안함."
+                end
+            end            
+            
+        end
+        redirect_to '/db/mainpage'
     end
 end
