@@ -348,7 +348,7 @@ class KakaoController < ApplicationController
         game_list.push(ttl_sch[date]) if not ttl_sch[date].nil?
         game_list.push(ttl_sch[tomorrow]) if not ttl_sch[tomorrow].nil?
         game_list = game_list.flatten(1)
-
+# ap game_list
         if time < "05:00"
             game_list.each do |t|
                 schedule.push(t)
@@ -373,8 +373,8 @@ class KakaoController < ApplicationController
             end
             temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
 [#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]}] #{playstatus}\n\
-#{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n"
-# 전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
+#{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n\
+전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
                     
         end
         
@@ -388,32 +388,37 @@ class KakaoController < ApplicationController
     end
 ##########################################################    
     def game_highlight(user_key, time, date)
-       
+        isbtn = false
         temp_msg, temp_key = init_state(user_key)
         high_data = Msgmaker::Data.new
         jm_sch = Jsonmaker::Crawling.new
-        yesterday = (date.to_i-1).to_s
+        yesterday = (date.to_date-1).strftime("%Y%m%d")
         schedule = Array.new
         ttl_sch = jm_sch.schedule["dailyScheduleListMap"]
         
-        high_info = ttl_sch[yesterday].concat(ttl_sch[date])
-        
+        high_info = ttl_sch[yesterday].concat(ttl_sch[date]) if not (ttl_sch[yesterday].nil? or ttl_sch[date].nil?)
+
         gameresult = []
-        high_info.each do |h|
-            if not h["gameStatus"].eql? "BEFORE" and not ((h["gameStartTime"] < "05:00" and time > "05:00" ) and h["gameStartDate"].eql? yesterday)
-                # ap "#{h["tournamentGameText"]} #{h["homeTeamName"]} #{h["awayTeamName"]}"
-                
-                tmp_url = "bit.ly/#{high_data.getHighlight[h["homeTeamName"]][h["awayTeamName"]]}"
-                tmp_text = "#{h["tournamentGameText"]} #{h["gameStartDate"].to_date.strftime("%d")}일 #{h["gameStartTime"]}\n\
+        if high_info.nil?
+            temp_msg = "(흑흑)\n어제 경기가 없었네요.\n"
+        else
+            high_info.each do |h|
+                if not h["gameStatus"].eql? "BEFORE"# and not ((h["gameStartTime"] < "05:00" and time > "05:00" ) and h["gameStartDate"].eql? yesterday)
+                    # ap "#{h["tournamentGameText"]} #{h["homeTeamName"]} #{h["awayTeamName"]}"
+                    
+                    tmp_url = "bit.ly/#{high_data.getHighlight[h["homeTeamName"]][h["awayTeamName"]]}"
+                    tmp_text = "#{h["tournamentGameText"]} #{h["gameStartDate"].to_date.strftime("%d")}일 #{h["gameStartTime"]}\n\
 #{h["homeTeamName"]} #{h["homeTeamScore"]} vs #{h["awayTeamScore"]} #{h["awayTeamName"]}\n🎥 하이라이트보기\n[#{tmp_url}]\n"
-                gameresult.push(tmp_text)
+                    gameresult.push(tmp_text)
+                end
             end
+            isbtn = true
+            label = "전체 경기 하이라이트"
+            url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
+            temp_msg = [gameresult.join("\n"),label,url]
         end
-        label = "전체 경기 하이라이트"
-        url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
-        temp_msg = [gameresult.join("\n"),label,url]
         # temp_msg = "예선B조\n모로코 0 vs 1 이란\n하이라이트 보기\n[bit.ly/m80016616]\n\n예선B조\n모로코 0 vs 1 이란\n하이라이트 보기\n[bit.ly/80016582]"
-        return temp_msg, temp_key, true
+        return temp_msg, temp_key, isbtn
     end
 ##########################################################    
     def wc_news(user_key)
