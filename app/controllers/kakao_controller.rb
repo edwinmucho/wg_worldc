@@ -64,7 +64,7 @@ class KakaoController < ApplicationController
             @@user[user_key][:mstep] = user_msg if temp_key[:buttons].include? user_msg
         end
         
-        begin
+        # begin
     #   각 메뉴 진입.
             case @@user[user_key][:mstep]
             
@@ -85,11 +85,11 @@ class KakaoController < ApplicationController
             end
       
           # 에러 발생시 여기로 옴. #에러 로그를 여기서!
-          rescue Exception => e
-            err_msg = "#{e.message} ( #{e.backtrace.inspect.scan(/\/[a-zA-Z_]+\/[a-zA-Z_.:0-9]+in /)[0]} )"
-            Buglist.create(user_key: user_key, err_msg: err_msg, usr_msg: user_msg, mstep: @@user[user_key][:mstep], fstep: @@user[user_key][:fstep])
-            temp_msg, temp_key = init_state("(흑흑)\n\"불편을 드려 죄송합니다.\n신속한 수정이 이뤄지도록 하겠습니다.\n감사합니다.\"",user_key)
-        end
+        #   rescue Exception => e
+        #     err_msg = "#{e.message} ( #{e.backtrace.inspect.scan(/\/[a-zA-Z_]+\/[a-zA-Z_.:0-9]+in /)[0]} )"
+        #     Buglist.create(user_key: user_key, err_msg: err_msg, usr_msg: user_msg, mstep: @@user[user_key][:mstep], fstep: @@user[user_key][:fstep])
+        #     temp_msg, temp_key = init_state("(흑흑)\n\"불편을 드려 죄송합니다.\n신속한 수정이 이뤄지도록 하겠습니다.\n감사합니다.\"",user_key)
+        # end
         
         
         if ismsgBtn
@@ -339,30 +339,29 @@ class KakaoController < ApplicationController
         high_data = data.getHighlight
 
         jm_sch = Jsonmaker::Crawling.new
+
         tomorrow = (date.to_i+1).to_s
         schedule = Array.new
         ttl_sch = jm_sch.schedule["dailyScheduleListMap"]
         
-        today_info = ttl_sch[date]
-        tomor_info = ttl_sch[tomorrow]
+        game_list = Array.new
+        game_list.push(ttl_sch[date]) if not ttl_sch[date].nil?
+        game_list.push(ttl_sch[tomorrow]) if not ttl_sch[tomorrow].nil?
+        game_list = game_list.flatten(1)
 
         if time < "05:00"
-            today_info.each do |t|
+            game_list.each do |t|
                 schedule.push(t)
             end
         else
-            today_info.each do |t|
-                if t["gameStartTime"] > "05:00"
-                    schedule.push(t)
-                end
-            end
-            
-            tomor_info.each do |t|
-                if t["gameStartTime"] < "05:00"
+            game_list.each do |t|
+                if (t["gameStartTime"] > "05:00" and t["gameStartDate"].eql? date) or 
+                    ( t["gameStartTime"] < "05:00" and t["gameStartDate"].eql? tomorrow)
                     schedule.push(t)
                 end
             end
         end
+
         temp_text = ["(굿) \"오늘의 경기 일정~Yo!\"\n"]
         schedule.each do |g|
         
