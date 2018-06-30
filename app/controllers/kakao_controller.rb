@@ -373,8 +373,8 @@ class KakaoController < ApplicationController
             end
             temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
 [#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]}] #{playstatus}\n\
-#{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n\
-전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
+#{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n"
+# 전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
                     
         end
         
