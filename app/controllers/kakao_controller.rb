@@ -332,12 +332,12 @@ class KakaoController < ApplicationController
     end
 ##########################################################
     def infotoday(user_key, time, date)
-        
+
         temp_msg, temp_key = init_state(user_key)
         data = Msgmaker::Data.new
         nation_flag = data.getFlagEmoji
         high_data = data.getHighlight
-
+        ton_data = data.getTourner
         jm_sch = Jsonmaker::Crawling.new
 
         tomorrow = (date.to_i+1).to_s
@@ -348,7 +348,7 @@ class KakaoController < ApplicationController
         game_list.push(ttl_sch[date]) if not ttl_sch[date].nil?
         game_list.push(ttl_sch[tomorrow]) if not ttl_sch[tomorrow].nil?
         game_list = game_list.flatten(1)
-# ap game_list
+        
         if time < "05:00"
             game_list.each do |t|
                 schedule.push(t)
@@ -362,22 +362,31 @@ class KakaoController < ApplicationController
             end
         end
 
-        temp_text = ["(굿) \"오늘의 경기 일정~Yo!\"\n"]
-        schedule.each do |g|
-        
-            playstatus = "⚽#{g["state"]}⚽"
-            if g["gameStatus"].eql? "BEFORE"
-                playstatus = "(꺄아)\"경기 전!\""            
-            elsif g["gameStatus"].eql? "RESULT"
-                playstatus = "(컴온)\"경기 끝남\""
-            end
-            temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
+        if schedule.size.eql? 0
+            temp_text = ["(흑흑) \"오늘은 경기가 없습니다.","자세한 경기일정은 아래 링크를 참고해 주세요.\"\n"]
+        else
+            temp_text = ["(굿) \"오늘의 경기 일정~Yo!\"\n"]
+            schedule.each do |g|
+    
+                if date < "20180706"
+                    page_url = high_data[g["homeTeamName"]][g["awayTeamName"]]
+                else
+                    page_url = ton_data[g["gameStartDate"]][g["gameStartTime"]]
+                end
+      
+                playstatus = "⚽#{g["state"]}⚽"
+                if g["gameStatus"].eql? "BEFORE"
+                    playstatus = "(꺄아)\"경기 전!\""            
+                elsif g["gameStatus"].eql? "RESULT"
+                    playstatus = "(컴온)\"경기 끝남\""
+                end
+                temp_text.push "#{g["tournamentGameText"]} #{g["stadium"]}\n\
 [#{g["gameStartDate"].to_date.strftime("%d")}일 #{g["gameStartTime"]}] #{playstatus}\n\
 #{nation_flag[g["homeTeamName"]]}#{g["homeTeamName"]} #{g["homeTeamScore"]} vs #{g["awayTeamScore"]} #{g["awayTeamName"]}#{nation_flag[g["awayTeamName"]]}\n\
-전력분석:[bit.ly/#{high_data[g["homeTeamName"]][g["awayTeamName"]]}]\n"
-                    
+전력분석:[bit.ly/#{page_url}]\n"
+                        
+            end
         end
-        
         text = temp_text.join("\n")        
         label = "전체 경기 일정"
         url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
