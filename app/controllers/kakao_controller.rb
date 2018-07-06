@@ -399,7 +399,10 @@ class KakaoController < ApplicationController
     def game_highlight(user_key, time, date)
         isbtn = false
         temp_msg, temp_key = init_state(user_key)
-        high_data = Msgmaker::Data.new
+        data = Msgmaker::Data.new
+        high_data = data.getHighlight
+        ton_data = data.getTourner
+        
         jm_sch = Jsonmaker::Crawling.new
         yesterday = (date.to_date-1).strftime("%Y%m%d")
         schedule = Array.new
@@ -407,27 +410,32 @@ class KakaoController < ApplicationController
         
         high_info = ttl_sch[yesterday].concat(ttl_sch[date]) if not (ttl_sch[yesterday].nil? or ttl_sch[date].nil?)
 
-        gameresult = []
+        gameresult = ["(굿) \"어제 월드컵 명경기\""]
         if high_info.nil?
-            temp_msg = "(흑흑)\n어제 경기가 없었네요.\n"
+            highlist = "(흑흑)\n어제 경기가 없었네요.\n"
         else
             high_info.each do |h|
                 if not h["gameStatus"].eql? "BEFORE"# and not ((h["gameStartTime"] < "05:00" and time > "05:00" ) and h["gameStartDate"].eql? yesterday)
                     # ap "#{h["tournamentGameText"]} #{h["homeTeamName"]} #{h["awayTeamName"]}"
                     
-                    tmp_url = "bit.ly/#{high_data.getHighlight[h["homeTeamName"]][h["awayTeamName"]]}"
+                    if date < "20180706"
+                        page_url = high_data[h["homeTeamName"]][h["awayTeamName"]]
+                    else
+                        page_url = ton_data[h["gameStartDate"]][h["gameStartTime"]]
+                    end
+                    
                     tmp_text = "#{h["tournamentGameText"]} #{h["gameStartDate"].to_date.strftime("%d")}일 #{h["gameStartTime"]}\n\
-#{h["homeTeamName"]} #{h["homeTeamScore"]} vs #{h["awayTeamScore"]} #{h["awayTeamName"]}\n🎥 하이라이트보기\n[#{tmp_url}]\n"
+#{h["homeTeamName"]} #{h["homeTeamScore"]} vs #{h["awayTeamScore"]} #{h["awayTeamName"]}\n🎥 하이라이트보기\n[bit.ly/#{page_url}]\n"
                     gameresult.push(tmp_text)
                 end
             end
-            isbtn = true
-            label = "전체 경기 하이라이트"
-            url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
-            temp_msg = [gameresult.join("\n"),label,url]
+            highlist = gameresult.join("\n")
         end
+        label = "전체 경기 하이라이트"
+        url = "http://m.sports.media.daum.net/m/sports/wc/russia/schedule?tab=day"
+        temp_msg = [highlist,label,url]
         # temp_msg = "예선B조\n모로코 0 vs 1 이란\n하이라이트 보기\n[bit.ly/m80016616]\n\n예선B조\n모로코 0 vs 1 이란\n하이라이트 보기\n[bit.ly/80016582]"
-        return temp_msg, temp_key, isbtn
+        return temp_msg, temp_key, true
     end
 ##########################################################    
     def wc_news(user_key)

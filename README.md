@@ -45,3 +45,11 @@
  
  * Deploy Version 2.2
 1. 8강 부터 결승전 토너먼트 링크 추가.
+
+
+## <2018.07.06> Update
+
+ * Deploy Version 2.2.1
+
+1. Hightlight 링크 버그 수정.
+
